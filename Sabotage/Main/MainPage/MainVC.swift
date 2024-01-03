@@ -12,7 +12,6 @@ struct ActionData {
     let content: String
 }
 
-
 protocol LimitItemDelegate: AnyObject {
     func addNewLimitItem(_ itemName: String)
 }
@@ -29,9 +28,6 @@ class MainVC: UIViewController, LimitItemDelegate{
     var tabBar = UITabBar()
     
     var pieChartViewController: PieChart!
-    //    var firstButton = UIButton(type: .system)
-    //    var secondButton = UIButton(type: .system)
-    //    var thirdButton = UIButton(type: .system)
     
     var limitTableView: UITableView!
     var actionTableView: UITableView!
@@ -64,8 +60,6 @@ class MainVC: UIViewController, LimitItemDelegate{
         // TableView 업데이트
         actionTableView.reloadData()
     }
-    
-    
     func toggleUI() {
         
         actionTogglebuttonTapped.contentMode = .scaleAspectFit
@@ -164,47 +158,12 @@ class MainVC: UIViewController, LimitItemDelegate{
         addChild(pieChartViewController)
         view.addSubview(pieChartViewController.view)
         pieChartViewController.didMove(toParent: self)
-        
-        // Buttons
-        //            firstButton.setTitle("First", for: .normal)
-        //            secondButton.setTitle("Second", for: .normal)
-        //            thirdButton.setTitle("Third", for: .normal)
-        //
-        //            firstButton.addTarget(self, action: #selector(firstButtonTapped), for: .touchUpInside)
-        //            secondButton.addTarget(self, action: #selector(secondButtonTapped), for: .touchUpInside)
-        //            thirdButton.addTarget(self, action: #selector(thirdButtonTapped), for: .touchUpInside)
-        //
-        //            [firstButton, secondButton, thirdButton].forEach {
-        //                view.addSubview($0)
-        //                $0.translatesAutoresizingMaskIntoConstraints = false
-        //            }
-        
-        // Set constraints for the PieChart view and buttons using SnapKit
         pieChartViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             pieChartViewController.view.topAnchor.constraint(equalTo: today.bottomAnchor, constant: 15),
             pieChartViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
-            
-            // pieChartViewController.view의 높이에 대한 제약을 추가하려면 필요한 제약 조건을 설정해야 합니다.
-            // 제약 조건이 필요한 경우 아래와 같이 해당 높이에 대한 제약을 추가하세요.
-            // pieChartViewController.view.heightAnchor.constraint(equalToConstant: 160)
         ])
-        
-        //            firstButton.snp.makeConstraints {
-        //                $0.top.equalTo(pieChartViewController.view.snp.bottom).offset(-50)
-        //                $0.leading.equalToSuperview().offset(80)
-        //            }
-        //
-        //            secondButton.snp.makeConstraints {
-        //                $0.top.equalTo(pieChartViewController.view.snp.bottom).offset(-50)
-        //                $0.centerX.equalToSuperview()
-        //            }
-        //
-        //            thirdButton.snp.makeConstraints {
-        //                $0.top.equalTo(pieChartViewController.view.snp.bottom).offset(-50)
-        //                $0.trailing.equalToSuperview().offset(-80)
-        //            }
     }
     
     func pieChartViewUI() {
@@ -318,16 +277,16 @@ class MainVC: UIViewController, LimitItemDelegate{
         ActionDummyDataType(category: "액션 2", content: "액션 1에 대한 설명입니다.")
     ]
     var limitItems: [LimitDummyDataType] = [
-        LimitDummyDataType(title: "제한그룹 1", description: "제한그룹 1임다"),
-        LimitDummyDataType(title: "제한그룹 2", description: "제한그룹 2임다"),
-        LimitDummyDataType(title: "제한그룹 3", description: "제한그룹 3임다")
+        LimitDummyDataType(title: "제한그룹 1", timeBudget: 1),
+        LimitDummyDataType(title: "제한그룹 2", timeBudget: 1),
+        LimitDummyDataType(title: "제한그룹 3", timeBudget: 1)
     ]
     
     // tableview data
     // LimitItemDelegate 메서드 구현
     func addNewLimitItem(_ itemName: String) {
         // LimitItemDelegate 메서드 구현
-        let newLimitItem = LimitDummyDataType(title: itemName, description: "새로운 항목 설명")
+        let newLimitItem = LimitDummyDataType(title: itemName, timeBudget: 3)
         limitItems.append(newLimitItem)
         
         // TableView 업데이트
@@ -355,7 +314,11 @@ class MainVC: UIViewController, LimitItemDelegate{
         // MARK: - getActionData
         getActionData()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: .addNotification, object: nil)
-       
+        
+        // MARK: - getLimitData
+        getLimitData()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: .addLimitNotification, object: nil)
+        
         
         // MARK: tableView 관련 코드
         actionTableView = UITableView(frame: .zero, style: .plain)
@@ -406,28 +369,12 @@ class MainVC: UIViewController, LimitItemDelegate{
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
         backBarButtonItem.tintColor = .black
         self.navigationItem.backBarButtonItem = backBarButtonItem
-        
-        // MARK: - 디자인때 필요할 것 같아서 남겨뒀움
-        
-        
-        //        var actionButton = UIButton(type: .system)
         actionButton.setImage(UIImage(named: "main_actionButton.png"), for: .normal)
         actionButton.contentMode = .scaleAspectFit
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         view.addSubview(actionButton)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.isHidden = false
-        
-        // actionTableView의 푸터 뷰로 actionButton을 설정
-        // MARK: - 이거 안 되면 푸터 뷰 대신에 UITableViewCell 안에 버튼을 추가하는 방식 사용 -> UITableViewCell을 커스텀하여 버튼을 셀 안에 추가해야 함.
-        //        actionTableView.tableFooterView = actionButton
-        //
-        //        NSLayoutConstraint.activate([
-        //            actionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        //            actionButton.topAnchor.constraint(equalTo: actionTableView.bottomAnchor, constant: 180),
-        //            actionButton.widthAnchor.constraint(equalToConstant: 390), // 이미지 크기에 맞게 조절
-        //            actionButton.heightAnchor.constraint(equalToConstant: 120) // 이미지 크기에 맞게 조절]
-        //        ])
         
         // actionTableView의 푸터 뷰로 actionButton을 설정
         actionTableView.tableFooterView = actionButton
@@ -442,10 +389,6 @@ class MainVC: UIViewController, LimitItemDelegate{
         ])
         
         let actiontotalTableViewHeight = actionTableView.contentSize.height + actionButton.bounds.height
-        
-        // Set the content inset to accommodate the `limitButton`
-        //        let bottomInset = view.bounds.height - totalTableViewHeight
-        //        print("bottomInset = ", bottomInset)
         actionTableView.contentInset = UIEdgeInsets(top: 00, left: 0, bottom: actiontotalTableViewHeight, right: 0)
         
         limitButton.setImage(UIImage(named: "main_limitButton.png"), for: .normal)
@@ -464,10 +407,6 @@ class MainVC: UIViewController, LimitItemDelegate{
         limitTableView.tableFooterView = limitButton
         
         let totalTableViewHeight = limitTableView.contentSize.height + limitButton.bounds.height
-        
-        // Set the content inset to accommodate the `limitButton`
-        //        let bottomInset = view.bounds.height - totalTableViewHeight
-        //        print("bottomInset = ", bottomInset)
         limitTableView.contentInset = UIEdgeInsets(top: 00, left: 0, bottom: totalTableViewHeight, right: 0)
     }
     
@@ -501,19 +440,6 @@ class MainVC: UIViewController, LimitItemDelegate{
         
         tableView.register(cellClass, forCellReuseIdentifier: identifier)
     }
-    
-    //    @objc func firstButtonTapped() {
-    //        pieChartViewController.firstAppUI()
-    //    }
-    //
-    //    @objc func secondButtonTapped() {
-    //        pieChartViewController.secondAppUI()
-    //    }
-    //
-    //    @objc func thirdButtonTapped() {
-    //        pieChartViewController.thirdAppUI()
-    //    }
-    
     func getActionData() {  // MARK: - "completion: @escaping ActionDataCompletion" 파라미터 추가
         if let url = URL(string: "\(urlLink)actionItem/\(userId)/all") {
             let session = URLSession(configuration: .default)
@@ -536,9 +462,6 @@ class MainVC: UIViewController, LimitItemDelegate{
                                 ActionDummyDataType(category: $0.category, content: $0.content)
                             }
                             self.actionTableView.reloadData()
-                            // self.ActionItemData = decodeData
-                            // self.collectionView.reloadData()
-                            //                        completion(decodeData) // MARK: - // 성공 시 가져온 데이터 전달
                             print("🤢 decodeData", decodeData)
                             let categories = decodeData.data.map { $0.category }
                             print("🎃", categories)
@@ -555,7 +478,44 @@ class MainVC: UIViewController, LimitItemDelegate{
             task.resume()
         }
     }
-    
+    func getLimitData() {  // MARK: - "completion: @escaping ActionDataCompletion" 파라미터 추가
+        if let url = URL(string: "\(urlLink)goalGroup/\(userId)") {
+            let session = URLSession(configuration: .default)
+            let task = session.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    print("🚨 Error: \(error.localizedDescription)")
+                    return
+                }
+                // JSON data를 가져온다. optional 풀어줘야 함
+                if let JSONdata = data {
+                    let dataString = String(data: JSONdata, encoding: .utf8) //얘도 확인을 위한 코드임
+                    print(dataString!)
+                    // JSONDecoder 사용하기
+                    let decoder = JSONDecoder() // initialize
+                    do {
+                        let decodeData = try decoder.decode(LimitItemData.self, from: JSONdata)
+                        
+                        DispatchQueue.main.async {
+                            self.limitItems = decodeData.data.map {
+                                LimitDummyDataType(title: $0.title, timeBudget: $0.timeBudget)
+                            }
+                            self.actionTableView.reloadData()
+                            print("🤢 decodeData", decodeData)
+                            let title = decodeData.data.map { $0.title }
+                            print("🎃", title)
+                            let timeBudgets = decodeData.data.map { $0.timeBudget }
+                            print("🎃", timeBudgets)
+                            print(LimitItemData.self)
+                        }
+                        
+                    } catch {
+                        print("🚨 JSON decoding error: \(error)")
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
     
     @objc func actionButtonTapped() {
 
@@ -582,7 +542,9 @@ class MainVC: UIViewController, LimitItemDelegate{
     @objc func reloadCollectionView() {
         DispatchQueue.main.async {
             self.getActionData()
+            self.getLimitData()
             self.actionTableView.reloadData()
+            self.limitTableView.reloadData()
         }
     }
     deinit {

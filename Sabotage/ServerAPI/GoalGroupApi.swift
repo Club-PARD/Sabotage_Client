@@ -8,8 +8,12 @@
 import Foundation
 import SwiftUI
 
+extension Notification.Name {
+    static let addLimitNotification = Notification.Name("addLimitNotification")
+}
+
+
 func goalPostRequest(title: String, timeBudget: Int, nudgeInterval: Int) {
-    // 서버 링크가 유요한지 확인
     guard let url = URL(string: "\(urlLink)goalGroup/\(userId)") else {
         print("🚨 Invalid URL")
         return
@@ -36,7 +40,6 @@ func goalPostRequest(title: String, timeBudget: Int, nudgeInterval: Int) {
             print("🚨 Error: \(error.localizedDescription)")
             return
         }
-        
         // 데이터가 비어있는지 확인
         guard let data = data, !data.isEmpty else {
             print("✅ No data returned from the server")
@@ -44,49 +47,17 @@ func goalPostRequest(title: String, timeBudget: Int, nudgeInterval: Int) {
         }
         do {
             if let response = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                
                 print("✅ \(response)")
+            }
+            DispatchQueue.main.async {
+                 NotificationCenter.default.post(name: .addLimitNotification, object: nil)
+                
+                print("✅ [actionPostRequest] Notification posted in actionPostRequest")
             }
         } catch {
             print("🚨 JSON parsing error: ", error)
         }
-//        do {
-//            let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-//            print("✅ Success: \(jsonResponse)")
-//            
-//            DispatchQueue.main.async {
-//                // 필요한 경우 NotificationCenter를 사용하여 알림 보내기
-//                // NotificationCenter.default.post(name: .addNotification, object: nil)
-//            }
-//        } catch {
-//            print("🚨 Error parsing JSON: ", error)
-//        }
     }
     // 시작하기. 꼭 적어줘야 함 !
     task.resume()
 }
-/**
- 
- do {
-     if let response = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-         if let data = response["data"] as? [String: Any] {
-             if let id = data["id"] as? Int {
-                 UserDefaults.standard.set(id, forKey: "userID")
-                 
-                 print("ID: \(id)")
-                 print("USERID: \(UserDefaults.standard.integer(forKey: "userID"))")
-             }
-             if let nickname = data["nickname"] as? String {
-                 UserDefaults.standard.set(nickname, forKey: "nickname")
-                 if let storedNickname = UserDefaults.standard.string(forKey: "nickname") {
-                     print("nickname = \(storedNickname)")
-                 }
-             }
-         }
-         print("✅ \(response)")
-     }
- } catch {
-     print("🚨 JSON parsing error: ", error)
- }
- 
- */

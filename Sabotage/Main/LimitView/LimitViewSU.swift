@@ -52,9 +52,9 @@ struct ScheduleView: View {
                 isPresented: $scheduleVM.isFamilyActivitySectionActive,
                 selection: $tempSelection
             )
-            .alert("저장 되었습니다.", isPresented: $scheduleVM.isSaveAlertActive) {
-                Button("OK", role: .cancel) {}
-            }
+//            .alert("저장 되었습니다.", isPresented: $scheduleVM.isSaveAlertActive) {
+//                Button("OK", role: .cancel) {}
+//            }
         }
         .onAppear {
             tempSelection = scheduleVM.selection
@@ -69,7 +69,12 @@ extension ScheduleView {
             let BUTTON_LABEL = "저장"
             
             Button(action: {
+                let finalTotal = selectedGoalHours * 60 * 60 + selectedGoalMinutes * 60
+                let nudgeTotal = selectedNudgeHours * 60 * 60 + selectedNudgeMinutes
+                
+//                $scheduleVM.isSaveAlertActive
                 scheduleVM.saveSchedule(selectedApps: tempSelection)
+                goalPostRequest(title: groupName, timeBudget: finalTotal, nudgeInterval: nudgeTotal)
             }) {
                 Text(BUTTON_LABEL).foregroundColor(isInputValid ? Color.primary700 : Color.base200).font(.headline)
             }
@@ -325,6 +330,15 @@ extension ScheduleView {
                     print("selectedGoalHours = \(selectedGoalHours):\(selectedGoalMinutes)")
 
                     goalPostRequest(title: groupName, timeBudget: finalTotal, nudgeInterval: nudgeTotal)
+                    
+                    NavigationView {
+                                NavigationLink(destination: MainVCWrapper()) {
+                                    Text("MainVC로 이동")
+                                }
+                            }
+//                    presentationMode.wrappedValue.dismiss()
+//                    let mainVC = MainVC()
+//                    navigationController?.pushViewController(mainVC, animated: true)
                 }
             }
             .padding()
@@ -377,22 +391,6 @@ extension ScheduleView {
     
 }
 
-// MARK: - 기존 시간 설정 코드
-//private func setUpTimeSectionView() -> some View {
-//        let TIME_LABEL_LIST = ["시작 시간", "종료 시간"]
-//        let times = [$scheduleVM.scheduleStartTime, $scheduleVM.scheduleEndTime]
-//
-//        return Section(
-//            header: Text(ScheduleSectionInfo.time.header),
-//            footer: Text(ScheduleSectionInfo.time.footer)) {
-//                ForEach(0..<TIME_LABEL_LIST.count, id: \.self) { index in
-//                    DatePicker(selection: times[index], displayedComponents: .hourAndMinute) {
-//                        Text(TIME_LABEL_LIST[index])
-//                    }
-//                }
-//            }
-//    }
-
 struct ScheduleView_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleView()
@@ -400,3 +398,13 @@ struct ScheduleView_Previews: PreviewProvider {
     }
 }
 
+
+struct MainVCWrapper: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> MainVC {
+        MainVC() // MainVC 인스턴스 생성
+    }
+
+    func updateUIViewController(_ uiViewController: MainVC, context: Context) {
+        // MainVC 업데이트 로직 (필요한 경우)
+    }
+}

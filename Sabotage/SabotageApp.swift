@@ -67,3 +67,14 @@ struct DataList : Codable {
     let category : String
     let content : String
 }
+
+
+struct LimitItemData : Codable {
+    // 이 부분의 변수명들은 불러온 부분과 일치해야 함.
+    let data : [LimitDataList]
+}
+
+struct LimitDataList : Codable {
+    let title: String
+    let timeBudget: Int
+}

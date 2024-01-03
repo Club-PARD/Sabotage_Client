@@ -66,9 +66,6 @@ class ActionItemController: UIViewController {
             imageView.tag = index + 1
         }
     }
-    
-    
-    
     @objc func actionCardTapped(_ sender: UITapGestureRecognizer) {
         if let imageView = sender.view as? UIImageView {
             let tappedTag = imageView.tag
@@ -94,7 +91,7 @@ class ActionItemController: UIViewController {
     func setConstraint() {
         NSLayoutConstraint.activate([
             
-        
+            
             closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
@@ -169,9 +166,6 @@ class ActionItemController: UIViewController {
         
         navigationController?.pushViewController(addActionItemController, animated: true)
     }
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -198,5 +192,6 @@ class ActionItemController: UIViewController {
 //        }
         navigationController?.popToRootViewController(animated: true)
     }
+
     
 }

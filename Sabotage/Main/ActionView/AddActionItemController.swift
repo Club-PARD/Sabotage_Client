@@ -12,7 +12,6 @@ class AddActionItemController: UIViewController, UITextFieldDelegate {
     var selectedCard: Int = 0
     
     // MARK: 변수
-    //    let backButton = UIButton(type: .system)
     let closeButton = UIImageView(image: UIImage(named: "closeButton.png"))
     let Title = UIImageView(image: UIImage(named: "action_title.png"))
     let tracker2 = UIImageView(image: UIImage(named: "action_tracker2.png"))
@@ -41,10 +40,10 @@ class AddActionItemController: UIViewController, UITextFieldDelegate {
     
     // MARK: UI
     func setUI() {
-
+        
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
-
+        
         
         Title.contentMode = .center
         Title.translatesAutoresizingMaskIntoConstraints = false
@@ -80,8 +79,6 @@ class AddActionItemController: UIViewController, UITextFieldDelegate {
         completeButton.contentMode = .scaleAspectFit
         completeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(completeButton)
-        
-        
     }
     
     // MARK: constraint
@@ -181,16 +178,12 @@ class AddActionItemController: UIViewController, UITextFieldDelegate {
             print("Text is missing")
             return
         }
-        
-        // Call actionPostRequest to send data
-        //        actionPostRequest(with: "\(selectedCardValue)", content: text)
         actionPostRequest(with: "\(selectedCard)", content: text)
-        // MARK: - [Create] Post ActionItem
-        // actionPostRequest(with: '여기 카테고리 변수', content: '내용 변수')
 
-//        let mainVC = MainVC() // Create a new instance of MainVC
-//        navigationController?.pushViewController(mainVC, animated: true) // Present MainVC
-        navigationController?.popToRootViewController(animated: true)
+        
+        let mainVC = MainVC() // Create a new instance of MainVC
+        navigationController?.pushViewController(mainVC, animated: true) // Present MainVC
+
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {

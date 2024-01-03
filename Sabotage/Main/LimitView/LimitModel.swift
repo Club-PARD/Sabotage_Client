@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LimitDummyDataType {
+struct LimitDummyDataType: Codable {
     var title: String
-    var description: String
+    var timeBudget: Int
 }
