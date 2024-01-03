@@ -207,7 +207,7 @@ override func viewDidLoad() {
     func rankingUI() {
         // 테이블 뷰를 먼저 contentView에 추가합니다.
         rankingTableView.translatesAutoresizingMaskIntoConstraints = false
-        rankingTableView.backgroundColor = .blue
+        rankingTableView.backgroundColor = .clear
         contentView.addSubview(rankingTableView)
         
         NSLayoutConstraint.activate([
@@ -226,6 +226,7 @@ override func viewDidLoad() {
             rankingBG.backgroundColor = .clear
             rankingBG.setImage(UIImage(named: "RankingBG"), for: .normal)
             contentView.addSubview(rankingBG)
+            rankingBG.isEnabled = false // 버튼 비활성화
         
         // rankingBG를 rankingTableView 위에 올리기 위해 순서를 조정합니다.
         contentView.bringSubviewToFront(ExitRank)
@@ -236,7 +237,8 @@ override func viewDidLoad() {
             rankingBG.topAnchor.constraint(equalTo: ExitRank.topAnchor, constant: -20),
             rankingBG.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             rankingBG.widthAnchor.constraint(equalToConstant: 343),
-            rankingBG.heightAnchor.constraint(equalToConstant: 530)
+            rankingBG.heightAnchor.constraint(equalToConstant: 540),
+
         ])
         
         // 스크롤뷰 길이 확인을 위한 label

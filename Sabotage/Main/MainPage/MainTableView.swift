@@ -80,7 +80,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
             // limitItems 배열에서 해당 indexPath의 데이터를 가져옴
             let limitItem = limitItems[indexPath.row]
             // limitItem의 데이터를 셀에 구성
-            cell.configure(with: limitItem.description, title: limitItem.title) // 'configure' 메서드는 적절히 수정 필요
+//            cell.configure(with: limitItem.description, title: limitItem.title) // 'configure' 메서드는 적절히 수정 필요
 
             return cell
         }

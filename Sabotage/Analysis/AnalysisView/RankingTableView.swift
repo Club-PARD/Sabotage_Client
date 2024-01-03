@@ -31,9 +31,8 @@ class RankingTableView: UIView, UITableViewDataSource, UITableViewDelegate {
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
             tableView.widthAnchor.constraint(equalToConstant: 324),
-            tableView.heightAnchor.constraint(equalToConstant: 433),
+            tableView.heightAnchor.constraint(equalToConstant: 530),
         ])
     }
 
@@ -191,7 +190,8 @@ class RankingTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     // TableView의 Cell 높이 설정
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 39.0 // 원하는 height 값으로 변경
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 39.0 // 원하는 height 값으로 변경
+    }
+    
 }
