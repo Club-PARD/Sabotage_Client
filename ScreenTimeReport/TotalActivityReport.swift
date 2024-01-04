@@ -42,7 +42,7 @@ struct TotalActivityReport: DeviceActivityReportScene {
         var totalActivityDuration: Double = 0 /// 총 스크린 타임 시간
         var list: [AppDeviceActivity] = [] /// 사용 앱 리스트
             let limitTime: Double = 6
-            let specificLimitTime: Double = 120
+            let specificLimitTime: Double = 480
             
         /// DeviceActivityResults 데이터에서 화면에 보여주기 위해 필요한 내용을 추출해줍니다.
         for await eachData in data {

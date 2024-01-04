@@ -165,8 +165,8 @@ class MainVC: UIViewController, LimitItemDelegate{
         let hostingController = UIHostingController(rootView: monitoringView)
         addChild(hostingController)
         pieChartBG.addSubview(hostingController.view)
-
-
+        // 가장 아래 뷰
+        hostingController.view.backgroundColor = UIColor.base500
         // Set constraints for the HostingController's view using Auto Layout or other layout methods
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -500,7 +500,6 @@ class MainVC: UIViewController, LimitItemDelegate{
                             self.actionItems = decodeData.data.map {
                                 ActionDummyDataType(category: $0.category, content: $0.content)
                             }
-                            
                             self.actionTableView.reloadData()
                             print("🤢 decodeData", decodeData)
                             let categories = decodeData.data.map { $0.category }

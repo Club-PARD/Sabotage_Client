@@ -59,6 +59,7 @@ struct ScheduleView: View {
         .onAppear {
             tempSelection = scheduleVM.selection
         }
+//        .onOpenURL(perform: <#T##(URL) -> ()#>)
     }
 }
 

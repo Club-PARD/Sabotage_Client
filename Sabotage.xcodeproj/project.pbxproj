@@ -19,6 +19,7 @@
 		210B7B422B400E4000D4105D /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B7B412B400E4000D4105D /* MainTableView.swift */; };
 		210B7B452B40176900D4105D /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B7B442B40176900D4105D /* APICaller.swift */; };
 		210B7B472B4018CF00D4105D /* ActionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B7B462B4018CF00D4105D /* ActionApi.swift */; };
+		21430E662B46E4CE001EE7A5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21E458772B41984300AFC7F4 /* Colors.xcassets */; };
 		214CC4812B3C4782003B74EB /* SabotageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214CC4802B3C4782003B74EB /* SabotageApp.swift */; };
 		214CC4832B3C4782003B74EB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214CC4822B3C4782003B74EB /* ContentView.swift */; };
 		214CC4852B3C4784003B74EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 214CC4842B3C4784003B74EB /* Assets.xcassets */; };
@@ -334,6 +335,8 @@
 		214CC4742B3C4782003B74EB = {
 			isa = PBXGroup;
 			children = (
+				214CC4842B3C4784003B74EB /* Assets.xcassets */,
+				21E458772B41984300AFC7F4 /* Colors.xcassets */,
 				214CC47F2B3C4782003B74EB /* Sabotage */,
 				2169E7DA2B3D750C00A8DC07 /* DeviceActivityMonitor */,
 				2169E7ED2B3D752A00A8DC07 /* ShieldAction */,
@@ -376,8 +379,6 @@
 				8852C05A2B3C484500219714 /* Profile */,
 				214CC4802B3C4782003B74EB /* SabotageApp.swift */,
 				214CC4822B3C4782003B74EB /* ContentView.swift */,
-				214CC4842B3C4784003B74EB /* Assets.xcassets */,
-				21E458772B41984300AFC7F4 /* Colors.xcassets */,
 				214CC4862B3C4784003B74EB /* Preview Content */,
 			);
 			path = Sabotage;
@@ -862,6 +863,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21741A0F2B416A880062B0D7 /* shared.xcconfig in Resources */,
+				21430E662B46E4CE001EE7A5 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

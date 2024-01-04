@@ -13,15 +13,16 @@ import UserNotifications
 struct TotalActivityView: View {
     var activityReport: ActivityReport
     var body: some View {
-        VStack(spacing: 4) {
-            Section {
-                // 앱을 'duration'에 따라 내림차순으로 정렬하고 상위 3개 선택
-                ForEach(activityReport.apps.sorted { $0.duration > $1.duration }.prefix(3).indices, id: \.self) { index in
-                    let eachApp = activityReport.apps.sorted { $0.duration > $1.duration }[index]
-                    ListRow(eachApp: eachApp, index: index + 1)
-                }
+        ZStack() {
+            Rectangle()
+                .background(.red)
+                .foregroundColor(.base500)
+            ForEach(activityReport.apps.sorted { $0.duration > $1.duration }.prefix(3).indices, id: \.self) { index in
+                let eachApp = activityReport.apps.sorted { $0.duration > $1.duration }[index]
+                ListRow(eachApp: eachApp, index: index + 1).background(Color.pink)
             }
-        }
+            // 섹션별 색상
+        }.background(.base500).listStyle(PlainListStyle())
     }
 }
 
@@ -47,26 +48,33 @@ struct ListRow: View {
             if let token = eachApp.token {
                 Label(token)
                     .labelStyle(.iconOnly)
-                    .frame(width: max(0, 30), height: 78)
+                    .padding(.leading, 5)
+                    .padding(.bottom, 5)
             }
             VStack{
                 HStack {
                     Text("\(index). \(eachApp.displayName)").frame(alignment: .leading)
-                        .padding(.leading, 20)
+                        .padding(.leading, 0)
+                        .foregroundColor(Color.base200)
+                        .font(.caption)
                     Spacer()
-                }
+                }.padding(0).listRowInsets(EdgeInsets()).padding(1).listRowBackground(Color.pink)
                 HStack {
                     Text(formatDuration(Int(eachApp.duration)))
-                        .font(.headline)
+                        .font(.caption)
+                        .foregroundColor(Color.base200)
                         .bold()
-                        .background(Color.red)
-                        .frame(minWidth: 52, alignment: .trailing).onAppear {
+                        .onAppear {
                         }
                     Spacer()
                 }.frame(alignment: .leading)
-            }.frame(alignment: .leading)
+                    .padding(0).listRowInsets(EdgeInsets()).listRowBackground(Color.base500)
+            }.frame(alignment: .leading).padding(.bottom, 10)
+                .background(.base500)
         }
-        .background(.clear)
+        .background(Color.base500)
+        .listRowInsets(EdgeInsets())
+        .listRowBackground(Color.pink)
     }
     func formatDuration(_ duration: Int) -> String {
         let hours = duration / 3600
