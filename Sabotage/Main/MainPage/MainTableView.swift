@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import Then
 
+var actionCount: Int = 0
+
 extension MainVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +71,8 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ActionCustomCell", for: indexPath) as? ActionTableViewCell else {
                 return UITableViewCell()
             }
-
+            actionCount = actionItems.count - 1
+            print("📌📌 \(actionCount)")
             // actionItems 배열에서 해당 indexPath의 데이터를 가져옴
             let actionItem = actionItems[indexPath.row]
             // Assuming actionItem.category is a String representation of category number

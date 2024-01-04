@@ -66,6 +66,7 @@ class ActionItemController: UIViewController {
             imageView.tag = index + 1
         }
     }
+    
     @objc func actionCardTapped(_ sender: UITapGestureRecognizer) {
         if let imageView = sender.view as? UIImageView {
             let tappedTag = imageView.tag

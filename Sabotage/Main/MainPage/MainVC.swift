@@ -373,6 +373,11 @@ class MainVC: UIViewController, LimitItemDelegate{
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
         backBarButtonItem.tintColor = .black
         self.navigationItem.backBarButtonItem = backBarButtonItem
+//        let actionCount = actionItems.count
+        let numberOfActionItem = actionTableView.numberOfRows(inSection: 0)
+        print("📌📌📌📌📌📌\(numberOfActionItem)")
+        print("📌📌📌📌📌")
+        getActionData()
         actionButton.setImage(UIImage(named: "main_actionButton.png"), for: .normal)
         actionButton.contentMode = .scaleAspectFit
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
@@ -466,6 +471,7 @@ class MainVC: UIViewController, LimitItemDelegate{
                     print("🚨 Error: \(error.localizedDescription)")
                     return
                 }
+                
                 // JSON data를 가져온다. optional 풀어줘야 함
                 if let JSONdata = data {
                     let dataString = String(data: JSONdata, encoding: .utf8) //얘도 확인을 위한 코드임
@@ -474,11 +480,12 @@ class MainVC: UIViewController, LimitItemDelegate{
                     let decoder = JSONDecoder() // initialize
                     do {
                         let decodeData = try decoder.decode(ActionItemData.self, from: JSONdata)
-                        
+//                        let jsonCount = actionItems.count
                         DispatchQueue.main.async {
                             self.actionItems = decodeData.data.map {
                                 ActionDummyDataType(category: $0.category, content: $0.content)
                             }
+                            
                             self.actionTableView.reloadData()
                             print("🤢 decodeData", decodeData)
                             let categories = decodeData.data.map { $0.category }
@@ -534,7 +541,7 @@ class MainVC: UIViewController, LimitItemDelegate{
             task.resume()
         }
     }
-    
+    // MARK: - 새로운 목표 만들기
     @objc func actionButtonTapped() {
 
         let actionItemController =  ActionItemController() // 잠깐 test
