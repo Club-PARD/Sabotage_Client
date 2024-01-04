@@ -48,11 +48,21 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         if tableView == actionTableView {
             // ActionTableView에서 셀을 선택한 경우 동작 정의
             print("ActionTableView의 \(indexPath.row) 번째 셀 선택됨")
-        } else if tableView == limitTableView {
-            // LimitTableView에서 셀을 선택한 경우 동작 정의
-            print("LimitTableView의 \(indexPath.row) 번째 셀 선택됨")
+            
+            // 선택한 셀의 정보 가져오기
+            let selectedActionItem = actionItems[indexPath.row]
+            
+            // 전환될 뷰 컨트롤러 생성
+            let saveActionItemController = SaveActionItemController()
+            
+            // 전달할 데이터 설정
+            saveActionItemController.selectedActionItem = selectedActionItem
+            
+            // 뷰 컨트롤러 전환
+            navigationController?.pushViewController(saveActionItemController, animated: true)
         }
     }
+
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == actionTableView {
@@ -62,10 +72,16 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
 
             // actionItems 배열에서 해당 indexPath의 데이터를 가져옴
             let actionItem = actionItems[indexPath.row]
-            // actionItem의 데이터를 셀에 구성
-            cell.categoryLabel.text = actionItem.category
+            // Assuming actionItem.category is a String representation of category number
+            if let categoryInt = Int(actionItem.category) {
+                cell.categoryType.text = getCategoryTypeString(for: categoryInt)
+                cell.categoryImage.image = UIImage(named: "category\(categoryInt).png")
+            } else {
+                cell.categoryType.text = "Unknown"
+                cell.categoryImage.image = nil
+            }
+
             cell.contentLabel.text = actionItem.content
-            // 'configure' 메서드는 적절히 수정 필요
 
             return cell
         }
@@ -90,6 +106,27 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         // 다른 테이블 뷰 구성이 필요한 경우
         return UITableViewCell()
     }
+
+    
+    func getCategoryTypeString(for category: Int) -> String {
+        switch category {
+        case 1:
+            return "운동"
+        case 2:
+            return "셀프케어"
+        case 3:
+            return "생활"
+        case 4:
+            return "생산성"
+        case 5:
+            return "성장"
+        case 6:
+            return "수면"
+        default:
+            return "기타"
+        }
+    }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == actionTableView {
@@ -107,3 +144,4 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         return UITableView.automaticDimension
     }
 }
+

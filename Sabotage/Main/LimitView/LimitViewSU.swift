@@ -45,8 +45,9 @@ struct ScheduleView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .toolbar { savePlanButtonView() }
-            .navigationTitle("제한 습관")
+            .navigationBarTitle("제한 습관")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(false)
             .familyActivityPicker(
                 isPresented: $scheduleVM.isFamilyActivitySectionActive,
                 selection: $tempSelection

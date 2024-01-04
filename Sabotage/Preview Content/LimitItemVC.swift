@@ -224,8 +224,19 @@
 //            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(30)
 //            make.height.equalTo(70)
 //        }
+
+//        
 //    }
 //    
+//    // dailyBudgetButton을 탭할 때 datePicker 표시/숨김 토글
+//    //    @objc func showHideDatePicker() {
+//    //        countDownDatePicker.isHidden = !countDownDatePicker.isHidden
+//    //    }
+//    
+//    
+
+//    }
+
 //    // 앱 하루 총 사용 시간
 //    @objc func datePickerValueChanged() {
 //        let selectedDate = countDownDatePicker.date
@@ -355,9 +366,27 @@
 //    
 //    // "완료" 버튼 클릭 시
 //    @objc func completeButtonTapped() {
+
+//        // Check if inputName meets the character limit
+//        
+//        //         if let text = inputName.text, !text.isEmpty, text.count <= 3 {
+//        //             // If it's within the limit, proceed to the MainVC
+//        //             let completeActionItemController = MainVC()
+//        //             navigationController?.pushViewController(completeActionItemController, animated: true)
+//        //             // Hide the error label if validation passes
+//        //             errorLabel.isHidden = true
+//        //             limitPostRequest(with: 1, title: "title", apps: ["a", "b"], timeBudget: 2)
+//        
+//        if let text = inputName.text, !text.isEmpty, text.count <= 10 {
+//            // If it's within the limit, proceed to update the MainVC's data
+//            delegate?.addNewLimitItem(text)
+////            limitPostRequest(with: 0, title: "title", apps: ["a", "b"], timeBudget: 0)
+//            // Dismiss the LimitItemController
+
 //        
 //        if let text = inputName.text, !text.isEmpty, text.count <= 10 {
 //            delegate?.addNewLimitItem(text)
+
 //            navigationController?.popViewController(animated: true)
 //            
 //        } else {
@@ -378,6 +407,7 @@
 //        return true
 //    }
 //}
+
 //extension LimitItemController {
 //    
 //    func setupTapGesture() {

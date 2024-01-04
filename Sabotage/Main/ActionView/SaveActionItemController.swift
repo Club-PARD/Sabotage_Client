@@ -16,6 +16,8 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
     var selectedButtonName: String = "" // 선택된 버튼의 이름을 저장하는 변수
     var selectedCard: Int = 0
 
+    var selectedActionItem: ActionDummyDataType?
+
     // MARK: 변수
     //    let backButton = UIButton(type: .system)
     let closeButton = UIImageView(image: UIImage(named: "closeButton.png"))
@@ -24,7 +26,12 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
     let inputItem = UIImageView(image: UIImage(named: "addaction_inputitem.png"))
     var content: String = "" // MARK: 외부에서 받을 content
     
-    let saveButton = UIImageView(image: UIImage(named: "saveButton.png"))
+    let saveButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "saveButton.png"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     let deleteButton = UIImageView(image: UIImage(named: "deleteButton.png"))
     
     let inputField: UITextField = {
@@ -51,13 +58,28 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         Title.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Title)
         
-        // category 이미지 설정
-        let categoryImageName = "addaction_category\(selectedCard).png"
-        if let categoryImage = UIImage(named: categoryImageName) {
-            category1.image = categoryImage
-        } else {
-            // 선택된 카드에 맞는 이미지가 없을 경우에 대한 처리
-            print("해당하는 이미지가 없습니다.")
+        if let category = selectedActionItem?.category {
+            let categoryImageName: String
+            switch category {
+            case "1":
+                categoryImageName = "addaction_category1.png"
+            case "2":
+                categoryImageName = "addaction_category2.png"
+            case "3":
+                categoryImageName = "addaction_category3.png"
+            case "4":
+                categoryImageName = "addaction_category4.png"
+            case "5":
+                categoryImageName = "addaction_category5.png"
+            case "6":
+                categoryImageName = "addaction_category6.png"
+            default:
+                categoryImageName = "default_category.png" // Default image if category is not within 1 to 6
+            }
+            
+            if let categoryImage = UIImage(named: categoryImageName) {
+                category1.image = categoryImage
+            }
         }
         category1.contentMode = .scaleAspectFit
         category1.translatesAutoresizingMaskIntoConstraints = false
@@ -69,8 +91,6 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         
         view.addSubview(inputField)
         
-        saveButton.contentMode = .scaleAspectFit
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(saveButton)
         
         deleteButton.contentMode = .scaleAspectFit
@@ -84,7 +104,7 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             
             closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
             closeButton.heightAnchor.constraint(equalToConstant: 40),
             
@@ -125,12 +145,25 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        if let selectedActionItem = selectedActionItem {
+            // 선택된 셀의 정보를 이용한 작업 수행
+            print("Selected Action Item: \(selectedActionItem)")
+        }
+        
         setUI()
         setConstraint()
         
-        inputField.text = content
+        inputField.text = selectedActionItem?.content
         
         print("Selected card: \(selectedCard)")
+        
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        view.addSubview(saveButton)
+        
+        let tapGestureDelete = UITapGestureRecognizer(target: self, action: #selector(deleteButtonTapped))
+        deleteButton.addGestureRecognizer(tapGestureDelete)
+        deleteButton.isUserInteractionEnabled = true
+
         
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture1.cancelsTouchesInView = false // Allow touch events to pass through the view hierarchy
@@ -140,17 +173,42 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         closeButton.addGestureRecognizer(tapGesture2)
         closeButton.isUserInteractionEnabled = true
         
-//        inputField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        inputField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
     }
     
     @objc func closeButtonTapped() {
-        if let mainVC = navigationController?.viewControllers.first(where: { $0 is MainVC }) {
-            navigationController?.popToViewController(mainVC, animated: true)
-        } else {
-            let mainVC = MainVC() // Instantiate your MainVC if not in the navigation stack
-            navigationController?.pushViewController(mainVC, animated: true)
+        let alert = UIAlertController(title: "정말 나가시겠어요?",
+                                      message: "저장하지 않은 내용을 잃어버릴 수 있어요",
+                                      preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "나가기", style: .default) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
         }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @objc func deleteButtonTapped() {
+        let alert = UIAlertController(title: "정말 삭제하시겠어요?",
+                                      message: "삭제하면 다시 불러올 수 없어요",
+                                      preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "삭제", style: .default) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func dismissKeyboard() {
@@ -161,21 +219,9 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func completeButtonTapped() {
-        // Check if both selectedCard and inputField have valid values
-        guard let text = inputField.text, !text.isEmpty else {
-            print("Text is missing")
-            return
-        }
+    @objc func saveButtonTapped() {
         
-        // Call actionPostRequest to send data
-        //        actionPostRequest(with: "\(selectedCardValue)", content: text)
-        actionPostRequest(with: "\(selectedCard)", content: text)
-        // MARK: - [Create] Post ActionItem
-        // actionPostRequest(with: '여기 카테고리 변수', content: '내용 변수')
-
-        let mainVC = MainVC() // Create a new instance of MainVC
-        navigationController?.pushViewController(mainVC, animated: true) // Present MainVC
+        navigationController?.popToRootViewController(animated: true)
     }
 
     @objc func deleteButtonTapped() {
@@ -190,11 +236,12 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
     }
     // 저장하기 
-//    @objc func textFieldDidChange(_ textField: UITextField) {
-//        if let text = textField.text, !text.isEmpty {
-//            completeButton.image = UIImage(named: "addaction_completebutton.png")
-//        } else {
-//            completeButton.image = UIImage(named: "addaction_completebuttonUntapped.png")
-//        }
-//    }
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text, let originalContent = selectedActionItem?.content, text != originalContent {
+            saveButton.setImage(UIImage(named: "saveButtonChanged.png"), for: .normal)
+        } else {
+            saveButton.setImage(UIImage(named: "saveButton.png"), for: .normal)
+        }
+    }
+
 }

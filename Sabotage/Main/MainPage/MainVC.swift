@@ -158,6 +158,9 @@ class MainVC: UIViewController, LimitItemDelegate{
         addChild(pieChartViewController)
         view.addSubview(pieChartViewController.view)
         pieChartViewController.didMove(toParent: self)
+
+        // Set constraints for the PieChart view and buttons using SnapKit
+
         pieChartViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -378,13 +381,18 @@ class MainVC: UIViewController, LimitItemDelegate{
         actionButton.isHidden = false
         
         // actionTableView의 푸터 뷰로 actionButton을 설정
+
+        // MARK: - 이거 안 되면 푸터 뷰 대신에 UITableViewCell 안에 버튼을 추가하는 방식 사용 -> UITableViewCell을 커스텀하여 버튼을 셀 안에 추가해야 함.
+
         actionTableView.tableFooterView = actionButton
         
         // 버튼을 마지막 셀 아래에 위치하도록 Auto Layout을 사용하여 조정
         NSLayoutConstraint.activate([
-            actionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            actionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             actionButton.topAnchor.constraint(equalTo: actionTableView.bottomAnchor, constant: 250),
-            actionButton.widthAnchor.constraint(equalToConstant: 467), // 버튼의 너비 조정
+            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            actionButton.widthAnchor.constraint(equalToConstant: 370), // 버튼의 너비 조정
             actionButton.heightAnchor.constraint(equalToConstant: 80) // 버튼의 높이 조정
             
         ])
@@ -399,10 +407,18 @@ class MainVC: UIViewController, LimitItemDelegate{
         limitButton.translatesAutoresizingMaskIntoConstraints = false
         limitButton.isHidden = true
         NSLayoutConstraint.activate([
+
+//             limitButton.topAnchor.constraint(equalTo: limitTableView.bottomAnchor, constant: 250),
+//             limitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+//             limitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+//             limitButton.widthAnchor.constraint(equalToConstant: 370), // 버튼의 너비 조정
+//             limitButton.heightAnchor.constraint(equalToConstant: 80) // 버튼의 높이 조정 // Adjust the width and height based on your image size
+
             limitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             limitButton.topAnchor.constraint(equalTo: limitTableView.bottomAnchor, constant: 150),
             limitButton.widthAnchor.constraint(equalToConstant: 350), // Adjust the width and height based on your image size
             limitButton.heightAnchor.constraint(equalToConstant: 100) // Adjust the width and height based on your image size
+
         ])
         
         limitTableView.tableFooterView = limitButton
@@ -424,23 +440,24 @@ class MainVC: UIViewController, LimitItemDelegate{
         
         tableView.dataSource = self
         tableView.delegate = self
-        //        tableView.backgroundColor = UIColor.red // 원하는 색상으로 변경
+        
+//        actionTableView.dataSource = self
+//        actionTableView.delegate = self
+//
+//        limitTableView.dataSource = self
+//        limitTableView.delegate = self
+
         
         if tableView == actionTableView {
-
-// //            tableView.backgroundColor = UIColor.orange // ActionTableView의 배경색을 orange로 변경
-//             tableView.backgroundColor = UIColor.red
-
-            //            tableView.backgroundColor = UIColor.orange // ActionTableView의 배경색을 orange로 변경
             tableView.backgroundColor = .base50
 
         } else if tableView == limitTableView {
             tableView.backgroundColor = .base50
-            //            tableView.backgroundColor = UIColor.brown // LimitTableView의 배경색을 brown으로 변경
         }
         
         tableView.register(cellClass, forCellReuseIdentifier: identifier)
     }
+
     func getActionData() {  // MARK: - "completion: @escaping ActionDataCompletion" 파라미터 추가
         if let url = URL(string: "\(urlLink)actionItem/\(userId)/all") {
             let session = URLSession(configuration: .default)
@@ -520,7 +537,7 @@ class MainVC: UIViewController, LimitItemDelegate{
     
     @objc func actionButtonTapped() {
 
-        let actionItemController = ActionItemController() // 잠깐 test
+        let actionItemController =  ActionItemController() // 잠깐 test
         navigationController?.pushViewController(actionItemController, animated: true)
         
         // MARK: ram - test code

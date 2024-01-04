@@ -93,7 +93,7 @@ class ActionItemController: UIViewController {
             
             
             closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
             closeButton.heightAnchor.constraint(equalToConstant: 40),
             
@@ -190,6 +190,19 @@ class ActionItemController: UIViewController {
 //            let mainVC = MainVC() // Instantiate your MainVC if not in the navigation stack
 //            navigationController?.pushViewController(mainVC, animated: true)
 //        }
+        let alert = UIAlertController(title: "정말 나가시겠어요?",
+                                      message: "저장하지 않은 내용을 잃어버릴 수 있어요",
+                                      preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "나가기", style: .default) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
         navigationController?.popToRootViewController(animated: true)
     }
 
