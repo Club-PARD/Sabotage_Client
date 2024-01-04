@@ -71,9 +71,7 @@ func makeUpdateRequest(with idName: String, name: String, age: Int, part: String
         return
     }
 
-    let urlString = "http://3.35.236.83/pard/update/\(encodedName)"
-
-    guard let url = URL(string: urlString) else {
+    guard let url = URL(string: "\(urlLink)goalGroup/\(userId)") else {
         print("🚨 Invalid URL")
         return
     }
