@@ -45,7 +45,7 @@ func EjectionPostRequest() {
             }
             // 메인 스레드에서 알림 전송
             DispatchQueue.main.async {
-                 NotificationCenter.default.post(name: .addNotification, object: nil)
+//                 NotificationCenter.default.post(name: .addNotification, object: nil)
                 
                 print("✅ [actionPostRequest] Notification posted in actionPostRequest")
             }

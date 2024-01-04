@@ -42,7 +42,7 @@ struct TotalActivityReport: DeviceActivityReportScene {
             var totalActivityDuration: Double = 0 /// 총 스크린 타임 시간
             var list: [AppDeviceActivity] = [] /// 사용 앱 리스트
             //            let limitTime: Double = 6
-            let specificLimitTime: Double = 600
+            let specificLimitTime: Double = 900
             
             /// DeviceActivityResults 데이터에서 화면에 보여주기 위해 필요한 내용을 추출해줍니다.
             for await eachData in data {
@@ -90,6 +90,12 @@ struct TotalActivityReport: DeviceActivityReportScene {
                     //                else if totalActivityDuration >= limitTime + 60 && totalActivityDuration <= limitTime + 120 { // 10 minutes
                     //                    scheduleNotification2()
                     //                }
+                    let category = UNNotificationCategory(identifier: "before_identifier",
+                                                          actions: [],
+                                                          intentIdentifiers: [],
+                                                          options: [])
+                    UNUserNotificationCenter.current().setNotificationCategories([category])
+
                     func scheduleNotification_each0(appName: String) {
                         if notificationSentForApps["\(appName)1"] != true {
                      
@@ -97,6 +103,7 @@ struct TotalActivityReport: DeviceActivityReportScene {
                             content.title = "✅ 1분 전임"
                             content.body = "You have used \(appName) for 10 minutes."
                             content.sound = .default
+                            content.categoryIdentifier = "before_identifier"
                             
                             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
@@ -105,6 +112,20 @@ struct TotalActivityReport: DeviceActivityReportScene {
                             notificationSentForApps["\(appName)1"] = true
                         }
                     }
+                    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                                didReceive response: UNNotificationResponse,
+                                                withCompletionHandler completionHandler: @escaping () -> Void) {
+                        let identifier = response.notification.request.content.categoryIdentifier
+
+                        if identifier == "before_identifier" {
+                            EjectionPostRequest()
+                            // 특정 화면으로 이동하는 로직 구현
+                            // 예: 특정 뷰 컨트롤러로 이동
+                        }
+
+                        completionHandler()
+                    }
+
                     func scheduleNotification_each1(appName: String) {
                         if notificationSentForApps["\(appName)2"] != true {
                             

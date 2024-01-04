@@ -76,6 +76,9 @@
 		2184A6F22B4682C700008073 /* AppleSDGothicNeoT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2184A6E92B4682C700008073 /* AppleSDGothicNeoT.ttf */; };
 		2184A6F32B4682C700008073 /* AppleSDGothicNeoUL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2184A6EA2B4682C700008073 /* AppleSDGothicNeoUL.ttf */; };
 		2184A6F52B46832600008073 /* BannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2184A6F42B46832600008073 /* BannerAPI.swift */; };
+		2184A6F72B46880600008073 /* BannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2184A6F42B46832600008073 /* BannerAPI.swift */; };
+		2184A6F82B46884700008073 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B7B442B40176900D4105D /* APICaller.swift */; };
+		2184A6F92B46886800008073 /* LimitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B7B3F2B400DD600D4105D /* LimitModel.swift */; };
 		21E458782B41984300AFC7F4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21E458772B41984300AFC7F4 /* Colors.xcassets */; };
 		21E4587C2B41F22D00AFC7F4 /* DeviceID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4587B2B41F22D00AFC7F4 /* DeviceID.swift */; };
 		21E4587F2B42007800AFC7F4 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4587E2B42007800AFC7F4 /* Buttons.swift */; };
@@ -979,7 +982,10 @@
 				2169E8162B3D75C400A8DC07 /* TotalActivityView.swift in Sources */,
 				21741A162B4170020062B0D7 /* Bundle_Extension.swift in Sources */,
 				2169E8322B3D7A6900A8DC07 /* ScreenTimeActivityReport.swift in Sources */,
+				2184A6F92B46886800008073 /* LimitModel.swift in Sources */,
+				2184A6F82B46884700008073 /* APICaller.swift in Sources */,
 				2169E8122B3D75C400A8DC07 /* ScreenTimeReport.swift in Sources */,
+				2184A6F72B46880600008073 /* BannerAPI.swift in Sources */,
 				2169E8142B3D75C400A8DC07 /* TotalActivityReport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
