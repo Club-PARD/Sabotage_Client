@@ -1,7 +1,7 @@
 import UIKit
 
 class ActionTableViewCell: UITableViewCell {
-
+    var categoryType: UILabel!
     var categoryLabel: UILabel!
 
     var contentLabel: UILabel!
