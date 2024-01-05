@@ -42,9 +42,11 @@ $\huge{\sf{\color{#B9FF99}홈화면}}$
 
 $\huge{\sf{\color{#B9FF99}대시보드}}$
 
-<img width="294" alt="스크린샷 2024-01-05 오후 10 38 52" src="https://github.com/Club-PARD/Sabotage_Client/assets/97924765/c489852c-f3d1-4223-a48c-9d1b32911d11">
+<img width="244" alt="스크린샷 2024-01-05 오후 10 38 52" src="https://github.com/Club-PARD/Sabotage_Client/assets/97924765/6d730f66-02ea-47a1-ae36-4aa962ff5576">
 
-<img width="294" alt="스크린샷 2024-01-05 오후 10 38 52" src="https://github.com/Club-PARD/Sabotage_Client/assets/97924765/d924cacd-dfbb-48a5-920a-c1bf83bb539d">
+<img width="244" alt="스크린샷 2024-01-05 오후 10 38 52" src="https://github.com/Club-PARD/Sabotage_Client/assets/97924765/df71386e-34e4-4d44-b302-9c1831e2ddb9">
+
+
 
 <br><br>
 
