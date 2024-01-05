@@ -171,7 +171,7 @@ class MainVC: UIViewController, LimitItemDelegate{
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: pieChartBG.topAnchor, constant: 20),
-            hostingController.view.leadingAnchor.constraint(equalTo: pieChartBG.centerXAnchor, constant: 10),
+            hostingController.view.leadingAnchor.constraint(equalTo: pieChartBG.centerXAnchor, constant: 50),
             hostingController.view.trailingAnchor.constraint(equalTo: pieChartBG.trailingAnchor, constant: -30),
             hostingController.view.bottomAnchor.constraint(equalTo: pieChartBG.bottomAnchor, constant: -100),
 //            hostingController.view.widthAnchor.constraint(equalToConstant: 150),
