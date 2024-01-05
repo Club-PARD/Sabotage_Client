@@ -84,7 +84,10 @@
 		8852C0692B3C4B1300219714 /* ActionItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8852C0682B3C4B1300219714 /* ActionItemController.swift */; };
 		8852C06B2B3C4B2800219714 /* AddActionItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8852C06A2B3C4B2800219714 /* AddActionItemController.swift */; };
 		8852C06D2B3C4B5C00219714 /* LimitItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8852C06C2B3C4B5C00219714 /* LimitItemVC.swift */; };
+		885E033E2B484F10004DB806 /* FontSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8800F0A62B421A25005CB6D2 /* FontSystem.swift */; };
+		885E033F2B484F15004DB806 /* FontSystemUikit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883D8E182B42AA03003DD8C5 /* FontSystemUikit.swift */; };
 		88637AB72B3C70ED006F1FF6 /* SaveActionItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88637AB62B3C70ED006F1FF6 /* SaveActionItemController.swift */; };
+		8898814F2B48499C003DD455 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21E458772B41984300AFC7F4 /* Colors.xcassets */; };
 		88A521042B41654F00CB1DCE /* RankingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A521032B41654F00CB1DCE /* RankingTableView.swift */; };
 		88ABDAB22B3EA3BD0011682E /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ABDAB12B3EA3BD0011682E /* PieChart.swift */; };
 		DB98B45E2DBF590A60210D39 /* Pods_Sabotage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE09D05FFC7473D463C0201 /* Pods_Sabotage.framework */; };
@@ -500,6 +503,26 @@
 		883D8E052B42A68B003DD8C5 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+
+				88E13A4D2B45E5AB004AB9E2 /* AppleSDGothicNeoB.ttf */,
+				88E13A4E2B45E5AB004AB9E2 /* AppleSDGothicNeoEB.ttf */,
+				88E13A522B45E5AB004AB9E2 /* AppleSDGothicNeoH.ttf */,
+				88E13A542B45E5AC004AB9E2 /* AppleSDGothicNeoL.ttf */,
+				88E13A512B45E5AB004AB9E2 /* AppleSDGothicNeoM.ttf */,
+				88E13A4F2B45E5AB004AB9E2 /* AppleSDGothicNeoR.ttf */,
+				88E13A552B45E5AC004AB9E2 /* AppleSDGothicNeoSB.ttf */,
+				88E13A532B45E5AC004AB9E2 /* AppleSDGothicNeoT.ttf */,
+				88E13A502B45E5AB004AB9E2 /* AppleSDGothicNeoUL.ttf */,
+				2184A6E62B4682C700008073 /* AppleSDGothicNeoB.ttf */,
+				2184A6E22B4682C700008073 /* AppleSDGothicNeoEB.ttf */,
+				2184A6E52B4682C700008073 /* AppleSDGothicNeoH.ttf */,
+				2184A6E32B4682C700008073 /* AppleSDGothicNeoL.ttf */,
+				2184A6E42B4682C700008073 /* AppleSDGothicNeoM.ttf */,
+				2184A6E82B4682C700008073 /* AppleSDGothicNeoR.ttf */,
+				2184A6E72B4682C700008073 /* AppleSDGothicNeoSB.ttf */,
+				2184A6E92B4682C700008073 /* AppleSDGothicNeoT.ttf */,
+				2184A6EA2B4682C700008073 /* AppleSDGothicNeoUL.ttf */,
+
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -769,8 +792,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+
+				2184A6F12B4682C700008073 /* AppleSDGothicNeoR.ttf in Resources */,
+				2184A6F02B4682C700008073 /* AppleSDGothicNeoSB.ttf in Resources */,
+				2184A6F22B4682C700008073 /* AppleSDGothicNeoT.ttf in Resources */,
+
 				214CC4882B3C4784003B74EB /* Preview Assets.xcassets in Resources */,
 				21E458782B41984300AFC7F4 /* Colors.xcassets in Resources */,
+
+				2184A6EC2B4682C700008073 /* AppleSDGothicNeoL.ttf in Resources */,
+				2184A6F32B4682C700008073 /* AppleSDGothicNeoUL.ttf in Resources */,
+				2184A6EF2B4682C700008073 /* AppleSDGothicNeoB.ttf in Resources */,
+
 				214CC4852B3C4784003B74EB /* Assets.xcassets in Resources */,
 				21741A1B2B417CCB0062B0D7 /* DeviceActivityMonitor.appex in Resources */,
 			);
@@ -805,6 +838,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21741A0F2B416A880062B0D7 /* shared.xcconfig in Resources */,
+				8898814F2B48499C003DD455 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,11 +978,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				885E033F2B484F15004DB806 /* FontSystemUikit.swift in Sources */,
 				2169E8162B3D75C400A8DC07 /* TotalActivityView.swift in Sources */,
 				21741A162B4170020062B0D7 /* Bundle_Extension.swift in Sources */,
 				2169E8322B3D7A6900A8DC07 /* ScreenTimeActivityReport.swift in Sources */,
 				2169E8122B3D75C400A8DC07 /* ScreenTimeReport.swift in Sources */,
 				2169E8142B3D75C400A8DC07 /* TotalActivityReport.swift in Sources */,
+				885E033E2B484F10004DB806 /* FontSystem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

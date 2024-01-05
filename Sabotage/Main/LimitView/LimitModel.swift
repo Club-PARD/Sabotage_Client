@@ -8,6 +8,7 @@
 import Foundation
 
 struct LimitDummyDataType: Codable {
+    var id: Int
     var title: String
     var timeBudget: Int
 }

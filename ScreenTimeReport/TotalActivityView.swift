@@ -13,7 +13,7 @@ import UserNotifications
 struct TotalActivityView: View {
     var activityReport: ActivityReport
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 0) {
             Section {
                 // 앱을 'duration'에 따라 내림차순으로 정렬하고 상위 3개 선택
                 ForEach(activityReport.apps.sorted { $0.duration > $1.duration }.prefix(3).indices, id: \.self) { index in
@@ -47,26 +47,31 @@ struct ListRow: View {
             if let token = eachApp.token {
                 Label(token)
                     .labelStyle(.iconOnly)
-                    .frame(width: max(0, 30), height: 78)
+                    .frame(width: max(0, 35), height: 60)
             }
             VStack{
                 HStack {
                     Text("\(index). \(eachApp.displayName)").frame(alignment: .leading)
-                        .padding(.leading, 20)
+                        .padding(.leading, 0)
+                        .foregroundColor(.base200)
+                        .font(.system(size: 17))
+                        .frame(minWidth: 30, alignment: .trailing).onAppear {
+                        }
                     Spacer()
                 }
                 HStack {
                     Text(formatDuration(Int(eachApp.duration)))
-                        .font(.headline)
+                        .font(.system(size: 17))
                         .bold()
-                        .background(Color.red)
-                        .frame(minWidth: 52, alignment: .trailing).onAppear {
+                        .background(.base500)
+                        .foregroundColor(.base200)
+                        .frame(minWidth: 30, alignment: .trailing).onAppear {
                         }
                     Spacer()
-                }.frame(alignment: .leading)
+                }
             }.frame(alignment: .leading)
         }
-        .background(.clear)
+        .background(.base500)
     }
     func formatDuration(_ duration: Int) -> String {
         let hours = duration / 3600

@@ -8,6 +8,7 @@
 import Foundation
 
 struct ActionDummyDataType: Codable {
+    let id: Int
     let category: String
     let content: String
 }

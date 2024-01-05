@@ -11,6 +11,7 @@ import SwiftUI
 extension Notification.Name {
     static let addNotification = Notification.Name("addNotification")
 }
+ 
 
 // MARK: - [Create] ActionItem
 func actionPostRequest(with category: String, content: String) {
@@ -51,56 +52,92 @@ func actionPostRequest(with category: String, content: String) {
             }
             // 메인 스레드에서 알림 전송
             DispatchQueue.main.async {
-                 NotificationCenter.default.post(name: .addNotification, object: nil)
+                NotificationCenter.default.post(name: .addNotification, object: nil)
                 
                 print("✅ [actionPostRequest] Notification posted in actionPostRequest")
             }
         } catch {
             print("🚨 Error parsing JSON: ", error)
         }
-
+        
     }
     task.resume()
 }
 
 // MARK: - [Update] ActionItem (ui 필요)
-func actionPatchRequest(with category: String, content: String) {
-    guard let url = URL(string: "\(urlLink)actionItem/\(userId)") else {
+func actionPatchRequest(category: String, content: String, id: Int) {
+    guard let url = URL(string: "\(urlLink)actionItem/\(userId)/\(id)") else {
         print("🚨 Invalid URL")
         return
     }
     
+    
     var request = URLRequest(url: url)
     request.httpMethod = "PATCH"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
     
     let body: [String: Any] = [
         "category": category,
         "content": content
     ]
     
+    
     request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
     
-    let task = URLSession.shared.dataTask(with: request) { data, _, error in
+    let task = URLSession.shared.dataTask(with: request) { data, _gaet, error in
         guard let data = data, error == nil else {
-            print("🚨 \(error?.localizedDescription ?? "Unknown error")")
+            if let error = error {
+                print("🚨🙊 Error: \(error.localizedDescription)")
+            } else {
+                print("🚨🙊 Data is nil")
+            }
             return
         }
         do {
             let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
             print("✅ Success: \(jsonResponse)")
-
+            
             DispatchQueue.main.async {
-                // 필요한 경우 NotificationCenter를 사용하여 알림 보내기
-                // NotificationCenter.default.post(name: .addNotification, object: nil)
+                NotificationCenter.default.post(name: .addNotification, object: nil)
             }
+            
         } catch {
-            print("🚨 Error parsing JSON: ", error)
+            print("🚨🚨 Error parsing JSON: ", error)
         }
-
+        
     }
     task.resume()
 }
+
+func deleteRequest(id: Int) {
+    
+    guard let url = URL(string: "\(urlLink)actionItem/\(userId)/\(id)") else {
+        print("🚨 Invalid URL")
+        return
+    }
+    
+    print("⛑️ id = \(id)")
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        if let error = error {
+            print("🚨 Error: \(error.localizedDescription)")
+        } else if let data = data {
+            do {
+                let response = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                print("✅ Delete success: \(response)")
+                NotificationCenter.default.post(name: .addNotification, object: nil)
+            } catch {
+                print("🚨 Error during JSON serialization: \(error.localizedDescription)")
+            }
+        }
+    }
+    task.resume()
+}
+
 
 // MARK: - 아직 구현 중
 func showActionPatchRequest(with category: String, content: String) {
@@ -130,7 +167,7 @@ func showActionPatchRequest(with category: String, content: String) {
             print("✅ success: \(response)")
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-//                    NotificationCenter.default.post(name: .addNotification, object: nil)
+                    //                    NotificationCenter.default.post(name: .addNotification, object: nil)
                 }
             }
         } catch {
@@ -139,3 +176,5 @@ func showActionPatchRequest(with category: String, content: String) {
     }
     task.resume()
 }
+
+

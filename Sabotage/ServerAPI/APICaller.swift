@@ -109,75 +109,89 @@ func makeUpdateRequest(with idName: String, name: String, age: Int, part: String
     task.resume()
 }
 
-func deleteRequest(name: String) {
-    let urlString = "http://3.35.236.83/pard/delete/\(name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-    
-    guard let url = URL(string: urlString!) else {
-        print("🚨 Invalid URL")
-        return
-    }
-    
-    var request = URLRequest(url: url)
-    request.httpMethod = "DELETE"
-
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            print("🚨 Error: \(error.localizedDescription)")
-        } else if let data = data {
-            do {
-                let response = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                print("✅ Delete success: \(response)")
-//                NotificationCenter.default.post(name: .addNotification, object: nil)
-            } catch {
-                print("🚨 Error during JSON serialization: \(error.localizedDescription)")
-            }
-        }
-    }
-    task.resume()
-}
-
-//func getActionData(){
-//    if let url = URL(string: "\(urlLink)/actionItem/\(userId)/all") {
-//        let session = URLSession(configuration: .default)
-//        // 지정된 URL의 내용을 검색하는 작업을 만든(creat)다음, 완료시 handler(클로저)를 호출
-//        // 클로저 앞에 @escaping이 있으면 함수의 작업이 완료된 후에 클로저가 호출된다.
-//            // data: 서버에서 반환된 데이터
-//            // response: HTTP 헤더 및 상태 코드와 같은 응답 메타 데이터를 제공하는 객체
-//            // error: 요청이 실패한 이유
-//        // 작업 후에는 반드시 resume()를 호출해야 한다.
-//            // 작업이 일시중단된 경우 다시 시작하는 것
-//        let task = session.dataTask(with: url) { data, response, error in
-//            if error != nil {
-//                print(error!)
-//                return
-//            }
-//            // JSON data를 가져온다. optional 풀어줘야 함
-//            if let JSONdata = data {
-//                let dataString = String(data: JSONdata, encoding: .utf8) //얘도 확인을 위한 코드임
-//                print(dataString!)
-//                // JSONDecoder 사용하기
-//                let decoder = JSONDecoder() // initialize
+//func deleteRequest(id: Int) {
+//    guard let url = URL(string: "\(urlLink)/api/actionItem/\(userId)/\(id)") else {
+//        print("🚨 Invalid URL")
+//        return
+//    }
+//    
+//    var request = URLRequest(url: url)
+//    request.httpMethod = "DELETE"
 //
-//                // .self를 붙이는 것 = static metatype을 .self 라고 한다. 꼭 넣어줘야 한다.
-//                // 자료형이 아닌 변수 값을 써줘야 하므로 .self를 붙여준다.
-//                // try catch문을 사용해야 함
-//                do { //json형식으로 디코딩 한다.
-////                    let decodeData = try decoder.decode(PardData.self, from: JSONdata)
-////                    self.pardData = decodeData
-//                    // 데이터를 가져온 후 collectionView를 메인 스레드에서 리로드_반드시 해야 화면에서 보임.
-//                    DispatchQueue.main.async {
-//                        // reloadData를 써주면 된다. 다시 로드하기 위함.
-////                        self.collectionView.reloadData()
+//    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//        if let error = error {
+//            print("🚨 Error: \(error.localizedDescription)")
+//        } else if let httpResponse = response as? HTTPURLResponse {
+//            print("Response Status Code: \(httpResponse.statusCode)")
+//            
+//            if let data = data {
+//                do {
+//                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+//                        print("✅ Response JSON: \(jsonResponse)")
+//                        // Handle the JSON response here using jsonResponse dictionary
+//                    } else {
+//                        let responseString = String(data: data, encoding: .utf8)
+//                        print("❌ Response Data: \(responseString ?? "Empty")")
+//                        // Handle other types of response (if any)
 //                    }
-//                } catch let error as NSError {
-//                    print("🚨", error)
+//                } catch {
+//                    print("🚨 Error during JSON serialization: \(error.localizedDescription)")
+//                    let responseString = String(data: data, encoding: .utf8)
+//                    print("❌ Response Data: \(responseString ?? "Empty")")
 //                }
+//
+//            } else {
+//                print("🚨 No data received.")
 //            }
 //        }
-//        // task가 준비만 하고 멈춰있기 때문.
-//        task.resume()
 //    }
+//    task.resume()
 //}
+
+
+
+func getActionData(){
+    if let url = URL(string: "\(urlLink)/actionItem/\(userId)/all") {
+        let session = URLSession(configuration: .default)
+        // 지정된 URL의 내용을 검색하는 작업을 만든(creat)다음, 완료시 handler(클로저)를 호출
+        // 클로저 앞에 @escaping이 있으면 함수의 작업이 완료된 후에 클로저가 호출된다.
+            // data: 서버에서 반환된 데이터
+            // response: HTTP 헤더 및 상태 코드와 같은 응답 메타 데이터를 제공하는 객체
+            // error: 요청이 실패한 이유
+        // 작업 후에는 반드시 resume()를 호출해야 한다.
+            // 작업이 일시중단된 경우 다시 시작하는 것
+        let task = session.dataTask(with: url) { data, response, error in
+            if error != nil {
+                print(error!)
+                return
+            }
+            // JSON data를 가져온다. optional 풀어줘야 함
+            if let JSONdata = data {
+                let dataString = String(data: JSONdata, encoding: .utf8) //얘도 확인을 위한 코드임
+                print(dataString!)
+                // JSONDecoder 사용하기
+                let decoder = JSONDecoder() // initialize
+
+                // .self를 붙이는 것 = static metatype을 .self 라고 한다. 꼭 넣어줘야 한다.
+                // 자료형이 아닌 변수 값을 써줘야 하므로 .self를 붙여준다.
+                // try catch문을 사용해야 함
+                do { //json형식으로 디코딩 한다.
+//                    let decodeData = try decoder.decode(PardData.self, from: JSONdata)
+//                    self.pardData = decodeData
+                    // 데이터를 가져온 후 collectionView를 메인 스레드에서 리로드_반드시 해야 화면에서 보임.
+                    DispatchQueue.main.async {
+                        // reloadData를 써주면 된다. 다시 로드하기 위함.
+//                        self.collectionView.reloadData()
+                    }
+                } catch let error as NSError {
+                    print("🚨", error)
+                }
+            }
+        }
+        // task가 준비만 하고 멈춰있기 때문.
+        task.resume()
+    }
+}
 //extension Notification.Name {
 //    static let addNotification = Notification.Name("addNotification")
 //}

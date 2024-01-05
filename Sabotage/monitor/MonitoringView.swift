@@ -19,8 +19,11 @@ struct MonitoringView: View {
     var body: some View {
         VStack {
             DeviceActivityReport(context, filter: filter)
-                .frame(width: 150, height: 200)
-                .background(Color.gray) // Changed to Color.gray (assuming .base200 is a custom color)
+                .frame(width: 150, height: 170)
+//                .offset(x: 0, y: 150)
+                .foregroundColor(.base100) // Changed from .green to .black
+                .background(.base100) // Changed from .blue to .black
+                .overlay(DeviceActivityReport(context, filter: filter))
                 .onAppear {
                     filter = DeviceActivityFilter(
                         segment: .daily(
@@ -38,13 +41,16 @@ struct MonitoringView: View {
                     print("🐥 Current Filter: \(filter)")
                     print("🍀Current Context: \(context)")
                 }
-            DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
                 .padding()
                 .onChange(of: selectedDate) { newValue in
                     print("🦢Selected Date: \(newValue)")
                     // You can perform actions or notify Main.swift here
                 }
         }
+//        .frame(maxWidth: 80, maxHeight: 170)
+//        .padding()
+//        .offset(x: -20, y: 0)
+
     }
 }
 

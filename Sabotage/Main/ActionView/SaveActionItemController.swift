@@ -7,6 +7,18 @@
 //  AddActionItemController.swift
 
 
+/*
+ SaveActionItemController은 "if let selectedActionItem = selectedActionItem {
+ // 선택된 셀의 정보를 이용한 작업 수행
+ print("Selected Action Item: \(selectedActionItem)")
+}"을 통해 외부 파일로부터 selectedActionItem 데이터를 받았다. selectedActionItem 내부에는 category 데이터(selectedActionItem?.category)와 content 데이터(selectedActionItem?.content)가 있다.
+ inputField에서 새로운 텍스트를 받으면 그 데이터가 기존의 content 데이터(selectedActionItem?.content)에서 업데이트 되어야 한다.
+ 그리고 saveButton을 탭하면 "actionPatchRequest(with: , content: )"가 호출됨으로써 서버로 데이터를 보내야 한다.
+ "actionPatchRequest(with: , content: )"를 완성해줘
+ 
+ inputField에서 텍스트가 변경되고 saveButton을 눌렀을 때 actionPatchRequest(with: , content: )가 호출되어야 한다.
+ **/
+
 import UIKit
 import SnapKit
 
@@ -66,6 +78,7 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         
         Title.contentMode = .center
         Title.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(Title)
         view.addSubview(Title)
         
         // MARK: - 외부 데이터 받기 -> selectedActionItem?.category
@@ -220,7 +233,12 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
                                       message: "삭제하면 다시 불러올 수 없어요",
                                       preferredStyle: .alert)
         
-        let confirmAction = UIAlertAction(title: "삭제", style: .default) { _ in
+        let confirmAction = UIAlertAction(title: "삭제", style: .default) { [self] _ in
+            guard let myID = selectedActionItem?.id else {
+                return
+            }
+            deleteRequest(id: myID)
+            print("✋ myID = ", myID)            
             self.navigationController?.popToRootViewController(animated: true)
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -231,6 +249,7 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
         navigationController?.popToRootViewController(animated: true)
     }
+
     
     @objc func dismissKeyboard() {
         view.endEditing(true) // Dismiss the keyboard
@@ -241,27 +260,23 @@ class SaveActionItemController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func saveButtonChangedTapped() {
-        
-        // patch
-        
-        actionPatchRequest(with: , content: )
-        
-        // get
-        
+        guard let newContent = inputField.text,
+              let category = selectedActionItem?.category,
+              let myID = selectedActionItem?.id else {
+            return
+        }
+        print("⚠️ selectedActionItem?.content: ", newContent)
+        print("⚠️ selectedActionItem?.content: ", inputField.text as Any)
+        print("⚠️ selectedActionItem?.category: ", selectedActionItem?.category as Any)
+        print("⚠️ selectedActionItem?.id: ", selectedActionItem?.id as Any)
+        print("🔥 category = ", category, ", content = ", newContent, ", id = ", myID)
+        actionPatchRequest(category: category, content: newContent, id: myID)
+        print("🔥 category = ", category, ", content = ", newContent, ", id = ", myID)
         navigationController?.popToRootViewController(animated: true)
     }
-    
-    //    @objc func deleteButtonTapped() {
-    //        let alert = UIAlertController(title: "정말 삭제하시겠어요?", message: "삭제하면 다시 불러올 수 없어요", preferredStyle: .alert)
-    //
-    //        // 취소 버튼
-    //        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-    //        // 삭제 버튼
-    //        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-    //            // 삭제 작업 수행
-    //        }))
-    //        present(alert, animated: true, completion: nil)
-    //    }
+
+
+
     // 저장하기
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, let originalContent = selectedActionItem?.content, text != originalContent {
